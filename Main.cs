@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace VSDocJSDocConverter
     {
         private const string Preamble = "/**";
         private const string Postamble = " */";
+        private BehaviorSubject<string> _vsDocInputSubject = new BehaviorSubject<string>(string.Empty);
+        private IObservable<string> _jsDocObservable;
 
         public Main()
         {
@@ -23,19 +26,12 @@ namespace VSDocJSDocConverter
             InitProcessClipboardData();
         }
 
-        private void pasteTextBox_DoubleClick(object sender, EventArgs e)
-        {
-            pasteTextBox.SelectAll();
-        }
-
         private void InitProcessClipboardData()
         {
-            // subscribe to clipboard events process input...
-            var clipboardText = Observable.FromEventPattern<ClipboardEventArgs>(h => pasteTextBox.Pasted += h, h => pasteTextBox.Pasted -= h)
+            // Process incoming data from subject
+            _jsDocObservable = _vsDocInputSubject
                 // clear previous results
-                .Do(_ => pasteTextBox.Clear())
-                // get clipboard text
-                .Select(evt => evt.EventArgs.ClipboardText)
+                .Do(_ => textBox.Clear())
                 // remove spaces in front of all lines
                 .Select(text => Regex.Replace(text, @"^\s*", string.Empty, RegexOptions.Multiline))
                 // remove /// from all lines
@@ -65,9 +61,9 @@ namespace VSDocJSDocConverter
                 // add preamble and postamble
                 .Select(text => string.Format("{1}{0}{2}{0}{3}", Environment.NewLine, Preamble, text, Postamble));
 
-            clipboardText.Subscribe(text =>
+            _jsDocObservable.Subscribe(text =>
             {
-                pasteTextBox.Text = text;
+                textBox.Text = text;
                 Clipboard.SetText(text);
             },
                                     exception =>
@@ -112,23 +108,35 @@ namespace VSDocJSDocConverter
 
         private void clearStripMenuItem1_Click(object sender, EventArgs e)
         {
-            pasteTextBox.Clear();
+            textBox.Clear();
 
         }
 
         private void copyStripMenuItem2_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(pasteTextBox.Text);
+            if (!string.IsNullOrEmpty(textBox.Text))
+                Clipboard.SetText(textBox.Text);
         }
 
         private void pasteStripMenuItem3_Click(object sender, EventArgs e)
         {
-            pasteTextBox.Text = Clipboard.GetText();
+            textBox.Text = Clipboard.GetText();
         }
 
         private void selectAllStripMenuItem4_Click(object sender, EventArgs e)
         {
-            pasteTextBox.SelectAll();            
+            textBox.SelectAll();            
+        }
+
+        private void textBox_DoubleClick(object sender, EventArgs e)
+        {
+            textBox.SelectAll();
+        }
+
+        private void pasteAndConvertStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var text = Clipboard.GetText();
+            _vsDocInputSubject.OnNext(text);
         }
     }
 }

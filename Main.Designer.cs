@@ -32,10 +32,10 @@
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.clearStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteAndConvertStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteTextBox = new VSDocJSDocConverter.PasteTextBox();
-            this.pasteAndConvertStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBox = new System.Windows.Forms.TextBox();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +48,7 @@
             this.pasteStripMenuItem,
             this.selectAllStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(212, 114);
+            this.contextMenuStrip.Size = new System.Drawing.Size(212, 136);
             // 
             // clearStripMenuItem
             // 
@@ -65,6 +65,14 @@
             this.copyStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.copyStripMenuItem.Text = "Copy";
             this.copyStripMenuItem.Click += new System.EventHandler(this.copyStripMenuItem2_Click);
+            // 
+            // pasteAndConvertStripMenuItem
+            // 
+            this.pasteAndConvertStripMenuItem.Name = "pasteAndConvertStripMenuItem";
+            this.pasteAndConvertStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteAndConvertStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.pasteAndConvertStripMenuItem.Text = "Paste and Convert";
+            this.pasteAndConvertStripMenuItem.Click += new System.EventHandler(this.pasteAndConvertStripMenuItem_Click);
             // 
             // pasteStripMenuItem
             // 
@@ -83,28 +91,21 @@
             this.selectAllStripMenuItem.Text = "Select All";
             this.selectAllStripMenuItem.Click += new System.EventHandler(this.selectAllStripMenuItem4_Click);
             // 
-            // pasteTextBox
+            // textBox
             // 
-            this.pasteTextBox.AcceptsReturn = true;
-            this.pasteTextBox.AcceptsTab = true;
-            this.pasteTextBox.AllowDrop = true;
-            this.pasteTextBox.ContextMenuStrip = this.contextMenuStrip;
-            this.pasteTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pasteTextBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pasteTextBox.Location = new System.Drawing.Point(0, 0);
-            this.pasteTextBox.Multiline = true;
-            this.pasteTextBox.Name = "pasteTextBox";
-            this.pasteTextBox.Size = new System.Drawing.Size(284, 261);
-            this.pasteTextBox.TabIndex = 0;
-            this.pasteTextBox.WordWrap = false;
-            this.pasteTextBox.DoubleClick += new System.EventHandler(this.pasteTextBox_DoubleClick);
-            // 
-            // pasteAndConvertStripMenuItem
-            // 
-            this.pasteAndConvertStripMenuItem.Name = "pasteAndConvertStripMenuItem";
-            this.pasteAndConvertStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteAndConvertStripMenuItem.Size = new System.Drawing.Size(211, 22);
-            this.pasteAndConvertStripMenuItem.Text = "Paste and Convert";
+            this.textBox.AcceptsReturn = true;
+            this.textBox.AcceptsTab = true;
+            this.textBox.AllowDrop = true;
+            this.textBox.ContextMenuStrip = this.contextMenuStrip;
+            this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox.Location = new System.Drawing.Point(0, 0);
+            this.textBox.Multiline = true;
+            this.textBox.Name = "textBox";
+            this.textBox.Size = new System.Drawing.Size(284, 261);
+            this.textBox.TabIndex = 0;
+            this.textBox.WordWrap = false;
+            this.textBox.DoubleClick += new System.EventHandler(this.textBox_DoubleClick);
             // 
             // Main
             // 
@@ -112,7 +113,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.pasteTextBox);
+            this.Controls.Add(this.textBox);
             this.Name = "Main";
             this.Text = "Convert VsDoc to JsDoc in one Control + C";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
@@ -125,12 +126,12 @@
 
         #endregion
 
-        private PasteTextBox pasteTextBox;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem clearStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectAllStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteAndConvertStripMenuItem;
+        private System.Windows.Forms.TextBox textBox;
     }
 }
